@@ -1,0 +1,277 @@
+---
+title: "Architecture Change Request"
+docType: ACHG
+templateVersion: "1.0"
+---
+
+# Architecture Change Request
+
+## Intake Interview Questions
+
+The template-driven intake interview asks the questions below before rendering this
+artefact. Every question below is always put to the user for their input, one
+question at a time, and is prefilled where answerable from existing artefacts,
+saved intake, onboarding data, or organisation config so the user can confirm or
+override it. Each question is **optional**: a skipped question renders as a
+`TBD` marker in the artefact. Sources: TOGAF Standard, 10th Edition
+(discovery dimensions per ADM phase) and the O-AA / agentic outcome dimensions below.
+
+### Intake questions (TOGAF 10 — change governance)
+
+- **Change:** What exactly changes (capability, application, data asset, platform), and why?
+- **Impact:** Which stakeholders, services, and artefacts are affected, and how?
+- **Risk:** What is the risk of change, and what is the risk of doing nothing?
+- **Approver:** Who is accountable for approving this change?
+- **Reversibility:** Is the change reversible, and what is the rollback plan?
+- **Change type:** What type of architecture change is this? Options: `Evolutionary` | `Transformational` | `Corrective` (default: `Evolutionary`):
+  - **Evolutionary**: Incremental improvement to existing architecture — extends or enhances current capabilities without fundamental change
+  - **Transformational**: Fundamental change that restructures significant portions of the architecture — new capabilities, technology platforms, or operating models
+  - **Corrective**: Fix for architectural deficiencies, technical debt, or compliance failures — restores intended design
+- **Priority:** What is the priority level of this change? Options: `Critical` | `High` | `Medium` | `Low` (default: `Medium`):
+  - **Critical**: Must be implemented immediately — safety, security, or regulatory compliance
+  - **High**: Major business impact — core capability changes, significant investment
+  - **Medium**: Standard change — enhancement or improvement within planned cycles
+  - **Low**: Minor refinement — low-risk, low-cost improvements
+- **ADM Re-Entry:** Which ADM phases need to be re-entered for this change? (multi-select; skip if none)
+  - **Phase A (Architecture Vision)**: Change affects overall vision or scope
+  - **Phase B (Business Architecture)**: Change affects business processes or organisation
+  - **Phase C (Information Systems)**: Change affects data or application architecture
+  - **Phase D (Technology Architecture)**: Change affects technology infrastructure
+  - **Phase E (Opportunities & Solutions)**: Change affects solution options or migrations
+  - **Phase F (Migration Planning)**: Change affects migration sequencing
+  - **Phase G (Implementation Governance)**: Change affects implementation oversight
+  - **Phase H (Change Management)**: Change affects ongoing change control
+
+## Document Control
+
+| Field | Value |
+|-------|-------|
+| **Document ID** | `ARC-[PROJECT_ID]-ACHG-[ACHG_NUM]-v[VERSION]` |
+| **Document Type** | Architecture Change Request |
+| **Project** | `[PROJECT_NAME]` |
+| **Change ID** | `ACHG-[ACHG_NUM]` |
+| **Classification** | `[CLASSIFICATION]` |
+| **Status** | DRAFT |
+| **Version** | `[VERSION]` |
+| **Change Type** | `[EVOLUTIONARY / TRANSFORMATIONAL / CORRECTIVE]` |
+| **Priority** | `[CRITICAL / HIGH / MEDIUM / LOW]` |
+| **Created Date** | `[YYYY-MM-DD]` |
+| **Last Modified** | `[YYYY-MM-DD]` |
+| **Review Cycle** | `[REVIEW_CYCLE]` |
+| **Next Review Date** | `[YYYY-MM-DD]` |
+| **Owner** | `[OWNER_NAME_AND_ROLE]` |
+| **Reviewed By** | `[REVIEWER_NAME]` |
+| **Approved By** | `[APPROVER_NAME]` |
+| **Distribution** | `[DISTRIBUTION_LIST]` |
+
+### Revision History
+
+| Version | Date | Author | Description | Reviewer | Approver |
+|---------|------|--------|-------------|----------|----------|
+| `[VERSION]` | `[YYYY-MM-DD]` | ArcKit AI | Initial creation from `/arckit:architecture-change` command | `[REVIEWER_NAME]` | `[APPROVER_NAME]` |
+
+---
+
+## 1. Change Request
+
+| Field | Value |
+|-------|-------|
+| Change ID | `ACHG-[ACHG_NUM]` |
+| Change Type | `[EVOLUTIONARY / TRANSFORMATIONAL / CORRECTIVE]` |
+| Submitted By | `[NAME]` |
+| Date | `[YYYY-MM-DD]` |
+| Priority | `[CRITICAL / HIGH / MEDIUM / LOW]` |
+
+---
+
+## 2. Rationale
+
+### 2.1 Business Driver
+
+[Why this change is needed from a business perspective. What objective or problem is being addressed?]
+
+### 2.2 Technical Driver
+
+[Architectural reason for the change — performance, security, scalability, maintainability, or compliance]
+
+### 2.3 Trigger
+
+[What initiated this change request: audit finding, strategic shift, technology obsolescence, stakeholder request, incident response]
+
+### 2.4 Change Description
+
+[Detailed description of the proposed change, including scope boundaries and exclusions]
+
+---
+
+## 3. Impact Assessment
+
+### 3.1 Capability Impact
+
+| Capability | Impact | Detail |
+|------------|--------|--------|
+| [C-X.X.X: Capability Name] | [Enhanced/Modified/New/Retired] | [Description of impact] |
+| [C-X.X.X: Capability Name] | [Enhanced/Modified/New/Retired] | [Description of impact] |
+
+### 3.2 Application Impact
+
+| Application | Impact | Detail |
+|-------------|--------|--------|
+| [Application Name] | [Enhanced/Modified/Replaced/Retired] | [Description of impact] |
+| [Application Name] | [Enhanced/Modified/Replaced/Retired] | [Description of impact] |
+
+### 3.3 Technology Impact
+
+| Technology | Impact | Detail |
+|------------|--------|--------|
+| [Technology/Platform] | [Enhanced/Modified/Replaced/Retired] | [Description of impact] |
+| [Technology/Platform] | [Enhanced/Modified/Replaced/Retired] | [Description of impact] |
+
+### 3.4 Governance Impact
+
+| Governance Area | Impact | Detail |
+|-----------------|--------|--------|
+| [Standards/Policy/Compliance] | [Changed/Unchanged/New] | [Description of impact] |
+| [Standards/Policy/Compliance] | [Changed/Unchanged/New] | [Description of impact] |
+
+---
+
+## 4. Affected Artefacts
+
+| Artefact | Impact Level | Action Required |
+|----------|-------------|-----------------|
+| `ARC-[PROJECT_ID]-BPCM-v[VERSION].md` | [HIGH / MEDIUM / LOW] | [Update / No change / New section] |
+| `ARC-[PROJECT_ID]-STRAT-v[VERSION].md` | [HIGH / MEDIUM / LOW] | [Update / No change / New section] |
+| `ARC-[PROJECT_ID]-APP-v[VERSION].md` | [HIGH / MEDIUM / LOW] | [Update / No change / New section] |
+| `ARC-[PROJECT_ID]-TRANS-v[VERSION].md` | [HIGH / MEDIUM / LOW] | [Update / No change / New section] |
+| `ARC-[PROJECT_ID]-ADMP-v[VERSION].md` | [HIGH / MEDIUM / LOW] | [Update / No change / New section] |
+
+---
+
+## 5. ADM Re-Entry Point
+
+| ADM Phase | Re-Entry | Scope |
+|-----------|----------|-------|
+| Phase A (Architecture Vision) | [YES / NO] | [Scope of re-entry] |
+| Phase B (Business Architecture) | [YES / NO] | [Scope of re-entry] |
+| Phase C (Information Systems Architectures) | [YES / NO] | [Scope of re-entry] |
+| Phase D (Technology Architecture) | [YES / NO] | [Scope of re-entry] |
+| Phase E (Opportunities & Solutions) | [YES / NO] | [Scope of re-entry] |
+| Phase F (Migration Planning) | [YES / NO] | [Scope of re-entry] |
+| Phase G (Implementation Governance) | [YES / NO] | [Scope of re-entry] |
+| Phase H (Architecture Change Management) | [YES / NO] | [Scope of re-entry] |
+
+---
+
+## 6. Cost/Benefit
+
+| Item | Amount |
+|------|--------|
+| Implementation Cost (CAPEX) | `[£X]` |
+| Ongoing Cost (OPEX/year) | `[£X/year]` |
+| Expected Benefit (year 1) | `[£Y]` |
+| Expected Benefit (annual) | `[£Y/year]` |
+| Payback Period | `[Z months]` |
+| 3-Year TCO | `[£X]` |
+
+### UK Government Financial Considerations
+
+| Item | Detail |
+|------|--------|
+| Spending Review Period | `[FY 2024/25 / FY 2025/26]` |
+| G-Cloud Frame | `[Frame reference if applicable]` |
+| TCoP Alignment | [Technology Code of Practice points addressed] |
+| Reuse Opportunity | [Cross-government service reuse assessment] |
+
+---
+
+## 7. Risk Assessment
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|------------|--------|------------|
+| [Risk 1: Technical implementation risk] | [High/Medium/Low] | [High/Medium/Low] | [Mitigation strategy] |
+| [Risk 2: Operational disruption risk] | [High/Medium/Low] | [High/Medium/Low] | [Mitigation strategy] |
+| [Risk 3: Compliance/regulatory risk] | [High/Medium/Low] | [High/Medium/Low] | [Mitigation strategy] |
+| [Risk 4: Financial risk] | [High/Medium/Low] | [High/Medium/Low] | [Mitigation strategy] |
+
+---
+
+## 8. Approval Workflow
+
+| Stage | Owner | Decision | Date |
+|-------|-------|----------|------|
+| Submission | `[REQUESTER]` | Submitted | `[YYYY-MM-DD]` |
+| Assessment | `[ARCHITECT]` | [Pending/Approved/Rejected/Conditional] | `[YYYY-MM-DD]` |
+| Board Review | `[BOARD]` | [Pending/Approved/Rejected/Conditional] | `[YYYY-MM-DD]` |
+| Approval | `[BOARD_CHAIR]` | [Pending/Approved/Rejected/Conditional] | `[YYYY-MM-DD]` |
+| Implementation | `[TEAM]` | [Pending/Started/Complete] | `[YYYY-MM-DD]` |
+
+---
+
+## 9. Traceability
+
+### Change-to-Artefact Traceability
+
+| Source | Link | Target |
+|--------|------|--------|
+| `ARC-[PROJECT_ID]-BORD-v[VERSION].md` | → | `ACHG-[ACHG_NUM]` |
+| `ACHG-[ACHG_NUM]` | → | [List of affected artefacts] |
+| [ADR-XXX / STRAT / REQ] | → | `ACHG-[ACHG_NUM]` |
+
+### Cross-References
+
+| Reference | Type | Detail |
+|-----------|------|--------|
+| [ADR-XXX] | ADR | Related architecture decisions |
+| [REQ-XXX] | Requirement | Requirements addressed by this change |
+| [RISK-XXX] | Risk | Risks mitigated or created by this change |
+| [ACHG-XXX] | Change Request | Related change requests |
+
+### External References
+
+| ID | Source | Relevance |
+|----|--------|-----------|
+| [ACHG-E1] | [External document name] | [What it contributed] |
+
+---
+
+**Generated by**: ArcKit `/arckit:architecture-change` command
+**Generated on**: `[DATE] [TIME] GMT`
+**ArcKit Version**: `{ARCKIT_VERSION}`
+**Project**: `[PROJECT_NAME]` (Project `[PROJECT_ID]`)
+**AI Model**: `[MODEL_NAME]`
+**Generation Context**: [Brief note about source documents used]
+
+## PlantUML ArchiMate View
+
+**Layer focus**: Implementation (change increments)
+
+> Notation: PlantUML ArchiMate standard library — pinned `!include <archimate/Archimate>` (PlantUML 1.2026.8).
+> This view is additive; the Mermaid diagram(s) above are unchanged.
+
+```plantuml
+@startuml
+!include <archimate/Archimate>
+
+title {diagram_title}
+
+LAYOUT_TOP_DOWN()
+
+' Elements
+{plantuml_elements}
+
+' Relationships (realization concrete->abstract; serving/flow/access)
+{plantuml_relationships}
+
+' Layout constraints (hidden placement edges)
+{plantuml_layout}
+
+@enduml
+```
+
+**View this diagram** (PlantUML does NOT render in GitHub markdown):
+
+- **CLI**: `java -jar plantuml.jar <file>.puml`
+- **Public server**: https://www.plantuml.com/plantuml/uml/ (keep the view small; never inline the stdlib into the URL source)
+- **Notation reference**: `skills/plantuml-syntax/references/archimate.md`
+- **Artefact delivery**: the view is shipped as a rendered **self-contained `.svg`** (offline, pinned build `plantuml-1.2026.8.jar -tsvg`; no external URLs, fully offline-openable); the inline PlantUML source above is retained as the source of truth.

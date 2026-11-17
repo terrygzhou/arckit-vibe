@@ -1,0 +1,307 @@
+---
+name: arckit-oaa-adm-lite
+display_name: ArcKit Oaa Adm Lite
+description: "Maps TOGAF ADM cycle to agile sprints — rapid architecture delivery in 2-4 week engagement windows"
+tags: [arckit, architecture, governance]
+---
+
+You are helping an enterprise architect create an **O-AA ADM Lite** architecture using Open Agile Architecture (O-AA, C208) mapped to TOGAF ADM phases across agile sprints. This approach compresses the full ADM cycle into a sprint-driven engagement suitable for rapid delivery windows.
+
+## User Input
+
+```text
+${args}
+```text
+
+## Trigger Guidance
+
+Use this command when **any** of the following conditions are met:
+
+- Client engagement has a **hard timeline under 8 weeks** for architecture + initial delivery
+
+- Client operates in **agile/sprint-driven** development culture
+
+- First engagement with a client — rapid architecture vision needed before scoping sprints
+
+- Client requires TOGAF alignment but cannot sustain traditional ADM cadence (quarterly architecture boards, 200-page deliverables)
+
+**Do NOT use** when:
+
+- Full regulatory audit trail is required (use `/arckit:adm-preliminary` with full ADM workflow instead)
+
+- Multi-year enterprise transformation with 50+ stakeholder review gates
+
+- Architecture baseline phase requires extensive current-state assessment (> 4 weeks)
+
+## Prerequisites: Read Foundational Artifacts
+
+> **Note**: Before generating, scan `projects/` for existing project directories. For each project, list all `ARC-*.md` artifacts, check `external/` for reference documents, and check `000-global/` for cross-project policies. If no external docs exist but they would improve output, ask the user.
+
+**MANDATORY** (stop if missing — generate upstream artefact first):
+
+- **PRIN** (Architecture Principles, in 000-global) — Extract: Guiding principles, decision framework, technology standards
+  - If missing: STOP and ask user to run `/arckit:principles` first. Even O-AA Lite must be grounded in established architecture principles.
+
+**RECOMMENDED** (read if available, note if missing):
+
+- **ADMP** (ADM Preliminary / Architecture Vision) — Extract: Existing scope, drivers, constraints if a preliminary ADM was already done
+
+  - If missing: note that Sprint 0 will establish vision from scratch
+
+### Prerequisites 1b: Read external documents and policies
+
+- Read any **external documents** listed in the project context (`external/` files) — extract existing vision documents, strategic plans, enterprise architecture mandates
+
+- Read any **enterprise standards** in `projects/000-global/external/` — extract architecture vision statements, enterprise transformation plans, cross-project alignment documents
+
+## Instructions
+
+### 1. Identify or Create Project
+
+Identify the target project from the hook context. If the user specifies a project that doesn't exist yet, create a new project:
+
+1. Use Glob to list `projects/*/` directories and find the highest `NNN-*` number (or start at `001` if none exist)
+2. Calculate the next number (zero-padded to 3 digits, e.g., `002`)
+3. Slugify the project name (lowercase, replace non-alphanumeric with hyphens, trim)
+4. Use the Write tool to create `projects/{NNN}-{slug}/README.md` with the project name, ID, and date
+5. Also create `projects/{NNN}-{slug}/external/README.md` with a note to place external reference documents here
+6. Set `PROJECT_ID` = the 3-digit number, `PROJECT_PATH` = the new directory path
+
+### 2. Load Mermaid Syntax References
+
+Read `${VIBE_EXTENSION_ROOT}/skills/mermaid-syntax/references/flowchart.md` for official Mermaid syntax — flowchart node shapes and edge labels, used for the data-flow-diagram.mmd deliverable. Diagrams in this artefact MUST follow the reference syntax.
+
+### 3. Read Template
+
+**Run the intake interview**:
+
+- Run the intake interview per `${VIBE_EXTENSION_ROOT}/references/intake-instructions.md` — derive required inputs from the effective template and MANDATORY prerequisites, prefill from existing sources, put **every** intake question to the user for their input one at a time (each question is optional and may be skipped; a skipped question renders as a `TBD` marker), and persist the answers. A previously saved or prefilled answer never waives the interview — on a re-run, a saved `.arckit/intake/` file only prefills the questions, so every question is still put to the user, one at a time, to confirm, override, or skip. Never collapse the interview into a single batch-confirmation question: each question is its own turn, even when fully prefilled; if no structured question tool is available, ask each question in plain text.
+
+- Load the OAA discovery-dimension checklist `${VIBE_EXTENSION_ROOT}/references/intake-discovery-dimensions.md` (D1–D10) and use it as the canonical coverage floor in addition to the shared block's §2 template-derived questions: a dimension resolvable from existing artefacts, `.arckit/intake/`, `user_config`, or `shared.json` is surfaced prefilled for confirmation/override (ask-always, answer-optional); a dimension with no source is asked as a grouped, skippable question (a skipped question renders a `TBD` marker); the checklist adds no diagram or output mandate.
+
+**Read the template** (with user override support):
+
+- **First**, check if `.arckit/templates-custom/oaa-adm-lite-template.md` exists in the project root
+
+- **If found**: Read the user's customized template (user override takes precedence)
+
+- **If not found**: Read `${VIBE_EXTENSION_ROOT}/templates/oaa-adm-lite-template.md` (default)
+
+> **Tip**: Users can customise templates with `/arckit:customize oaa-adm-lite`
+
+### 4. Sprint Map
+
+The O-AA ADM Lite maps the TOGAF ADM cycle to agile sprints:
+
+| Sprint | TOGAF Phases | Focus | Duration | Key Output |
+|--------|-------------|-------|----------|------------|
+| Sprint 0 | ADM-P + A | Vision + Stakeholders | 1 week | `vision.yaml` |
+| Sprint 1 | ADM-B + C (part) | Business + Data Architecture | 2 weeks | `business-architecture.yaml`, `data-architecture.yaml` |
+| Sprint 2 | ADM-C (part) + D | Technology Architecture | 2 weeks | `technology-architecture.yaml` |
+| Sprint 3 | ADM-E + F | Implementation Wave | 2 weeks | `implementation-strategy.yaml` |
+| Sprint 4+ | ADM-G + H | Governance + Change | Ongoing | `governance-report.yaml`, `change-request.yaml` |
+
+### 5. O-AA Axiom Alignment
+
+Every O-AA deliverable must reference the relevant O-AA axioms. C208 Ch. 9 defines exactly 16 named axioms (§9.1–§9.16); `oaa-adm-lite` applies axioms 1–10 to the ADM Lite mapping:
+
+- **Axiom 1 (Customer Experience Focus)** — architecture enables delivery of a differentiated customer experience by analyzing enterprise-to-customer interactions
+
+- **Axiom 2 (Outside-In Thinking)** — discover hidden, untold customer needs (jobs-to-be-done, journey mapping, design thinking) before scoping work
+
+- **Axiom 3 (Rapid Feedback Loops)** — verify customer and user assumptions early and often (OODA, PDCA, prototyping at any stage)
+
+- **Axiom 4 (Touchpoint Orchestration)** — orchestrate every enterprise and ecosystem touchpoint holistically, not point by point
+
+- **Axiom 5 (Value Stream Alignment)** — specify value from the customer's standpoint; one value stream per product or service family
+
+- **Axiom 6 (Autonomous Cross-Functional Teams)** — segment delivery into autonomous cross-functional teams; team autonomy is a prerequisite to speed
+
+- **Axiom 7 (Authority, Responsibility, and Accountability Distribution)** — balance freedom with responsibility and accountability at every layer
+
+- **Axiom 8 (Loosely-Coupled Systems)** — favour loosely-coupled, modular architectures; modularity shortens development time and increases product flexibility
+
+- **Axiom 9 (Modular Data Platform)** — domains own and serve their own data; a centralized monolithic data platform is an anti-pattern
+
+- **Axiom 10 (Simple Common Operating Principles)** — one set of simple mechanisms for all elements and connections (e.g., standard APIs)
+
+### 6. Shared Schema Definitions
+
+O-AA commands reuse schema definitions across TOGAF and O-AA workflows:
+
+- **`vision.yaml`** — Architecture vision, scope, drivers, constraints (shared with `/arckit:adm-preliminary`)
+
+- **`implementation-strategy.yaml`** — Implementation waves, migration strategy (shared with `/arckit:transition-architecture`)
+
+- **`stakeholder-map.md`** — Stakeholder roles, concerns, compliance mapping
+
+Validate outputs against shared schemas:
+
+- `schemas/vision.json` — Vision document schema
+
+- `schemas/implementation-strategy.json` — Implementation strategy schema
+
+### 7. Generate O-AA ADM Lite Document
+
+Create the O-AA ADM Lite document following the template structure.
+
+#### Document Control
+
+- Generate Document ID: `ARC-{P}-OAAL-v1.0` (for filename: `ARC-{P}-OAAL-v1.0.md`)
+
+- Set owner, dates, status, classification
+
+- Review cycle: Per sprint cycle
+
+#### Sprint Plan
+
+- Define sprint duration (default: 2 weeks)
+
+- Map each sprint to TOGAF ADM phases
+
+- Specify deliverables per sprint with schema validation commands
+
+- Include sprint-level acceptance criteria
+
+#### Sprint 0: Vision + Stakeholders
+
+- Use `vision.yaml` schema
+
+- Map stakeholders to concerns and compliance requirements
+
+- Define success criteria with measurable targets
+
+- Architecture contract: deliverable format and handoff process
+
+#### Sprint 1-2: Architecture Design
+
+- Business + Data Architecture (Sprint 1)
+
+- Technology Architecture (Sprint 2)
+
+- Each sprint produces schema-validated YAML artifacts
+
+#### Sprint 3: Implementation Wave
+
+- Use `implementation-strategy.yaml` schema
+
+- Define migration approach, work packages, sequencing
+
+- Risk assessment per work package
+
+#### Sprint 4+: Governance + Change
+
+- Lightweight governance cadence (sprint reviews, not quarterly boards)
+
+- Continuous compliance evidence
+
+- Architecture change requests via `/arckit:architecture-change`
+
+### 8. Quality Gate
+
+Before writing the file, read `${VIBE_EXTENSION_ROOT}/references/quality-checklist.md` and verify all **Common Checks** pass. Fix any failures before proceeding.
+
+### 9. Write the Document
+
+**IMPORTANT**: The O-AA ADM Lite document will be a substantial document (typically 150-300 lines). You MUST use the Write tool to create the file, NOT output the full content in chat.
+
+Create the file at:
+
+```text
+projects/{P}/ARC-{P}-OAAL-v1.0.md
+```text
+
+### 10. Show Summary to User
+
+After writing the file, show a concise summary (NOT the full document):
+
+```markdown
+## O-AA ADM Lite Created
+
+**Document**: `projects/{P}/ARC-{P}-OAAL-v1.0.md`
+**Document ID**: ARC-{P}-OAAL-v1.0
+
+### Sprint Plan
+| Sprint | TOGAF Phases | Focus | Duration | Deliverable |
+|--------|-------------|-------|----------|-------------|
+| Sprint 0 | ADM-P + A | Vision + Stakeholders | 1 week | vision.yaml |
+| Sprint 1 | ADM-B + C | Business + Data Arch | 2 weeks | business-architecture.yaml |
+| Sprint 2 | ADM-C + D | Technology Arch | 2 weeks | technology-architecture.yaml |
+| Sprint 3 | ADM-E + F | Implementation | 2 weeks | implementation-strategy.yaml |
+| Sprint 4+ | ADM-G + H | Governance | Ongoing | governance-report.yaml |
+
+### Shared Schemas
+- ✅ vision.yaml → schemas/vision.json
+
+The schemas ship with this plugin in `schemas/` (9 shared architecture schemas); validate artifacts with `python3 validate-architecture.py <artifact> --phase <phase>` — see `schemas/README.md`.
+
+- ✅ implementation-strategy.yaml → schemas/implementation-strategy.json
+
+### O-AA Axioms Applied
+- [List relevant axioms with brief rationale]
+
+### Synthesised From
+- [✅/⚠️] Architecture Principles: ARC-000-PRIN-v[N].md
+
+- [✅/⚠️] ADM Preliminary: ARC-{P}-ADMP-v[N].md
+
+### Next Steps
+1. Begin Sprint 0: Stakeholder workshops + vision definition
+2. Validate vision.yaml against schema: `python validate-architecture.py vision.yaml --phase vision`
+3. Continue to Sprint 1: `/arckit:product-architecture`
+4. Plan dual transformation: `/arckit:agile-strategy`
+
+**File location**: `projects/{P}/ARC-{P}-OAAL-v1.0.md`
+```text
+
+## Important Notes
+
+1. **O-AA vs Traditional TOGAF**: This is a lightweight, sprint-driven approach. It preserves TOGAF ADM structure but compresses the timeline and deliverable format. Do not use for regulated engagements requiring full ADM audit trails.
+
+2. **Shared Schemas**: The `vision.yaml` and `implementation-strategy.yaml` schemas are shared between O-AA and traditional TOGAF commands. This ensures consistency regardless of which approach the client selects.
+
+3. **Product-Centric**: O-AA mandates product-centric architecture (Axiom 15: Project to Product Shift). The organizing principle is the product, not capabilities or services.
+
+4. **Use Write Tool**: The O-AA ADM Lite document is typically 150-300 lines. ALWAYS use the Write tool to create it.
+
+5. **Version Management**: If an O-AA ADM Lite document already exists (`ARC-*-OAAL-v*.md`), create a new version (v2.0) rather than overwriting.
+
+6. **Markdown escaping**: When writing less-than or greater-than comparisons, always include a space after `<` or `>` (e.g., `< 3 seconds`, `> 99.9% uptime`) to prevent markdown renderers from interpreting them as HTML tags or emoji.
+
+## PlantUML ArchiMate View (additive)
+
+When the artefact content is **ArchiMate-representable** (a layer/tier, capability, service, application or technology component, or a motivation element — driver/goal/constraint), add a PlantUML-ArchiMate view to the generated artefact:
+
+1. Load `${VIBE_EXTENSION_ROOT}/skills/plantuml-syntax/references/archimate.md` (pinned `!include <archimate/Archimate>`, PlantUML 1.2026.8) for notation.
+2. Fill the `## PlantUML ArchiMate View` block in the template, stereotyped into the **Technology + Application** layer focus.
+3. Quality gates: single-layer stereotyping; ≤ 12 elements per layer; realization edges point concrete → abstract; no unlabelled cross-layer edges.
+
+This is additive — the existing `data-flow-diagram.mmd` Mermaid deliverable are retained, not replaced.
+
+## PlantUML ArchiMate Companion View (Physical, additive)
+
+When the artefact content supports a **Physical** companion view, add a **separate** PlantUML-ArchiMate companion view to the generated artefact (a separate sequenced `ARCH` document, not merged into the base view above):
+
+1. Load `${VIBE_EXTENSION_ROOT}/skills/plantuml-syntax/references/archimate.md` (pinned `!include <archimate/Archimate>`, PlantUML 1.2026.8) for notation.
+2. Fill the `### PlantUML ArchiMate Companion View (Physical)` block in the `oaa-adm-lite` template (`{companion_physical_elements}`, `{companion_physical_relationships}`, `{companion_physical_layout}`).
+3. Quality gates: separate `ARCH` document; ≤ 12 elements per layer; realization edges point concrete → abstract; split-never-drop (reduce to the most material elements or split into another `ARCH` doc, never silently drop).
+
+This is additive — the demanded base view and existing Mermaid diagram(s) are retained, not replaced.
+
+## Render the ArchiMate view(s) to self-contained SVG(s)
+
+PlantUML does not render in GitHub markdown, so each ArchiMate view above (the demanded base view, and any companion view) is delivered as a rendered **self-contained `.svg`** — the inline PlantUML source above stays the source of truth:
+
+1. Render offline with the pinned build: `java -jar plantuml-1.2026.8.jar -tsvg <view>.puml` (no public server, no URL-include path).
+2. The rendered `.svg` is the **only new rendered file** for the view; do not create a new architecture document file to host the view (the inline PlantUML source is retained).
+3. Verify self-containment before delivery: no `http(s)` URL other than the W3C `2000/svg` / `1999/xlink` namespace declarations, `xlink:href` limited to local `#anchors`, and the SVG opens and renders fully offline.
+4. Notation + rendering reference: § Diagram Production Policy + § Offline Self-Contained SVG Rendering in `skills/plantuml-syntax/references/archimate.md`.
+
+## Suggested Next Steps
+
+After completing this command, consider running:
+
+- `/arckit-product-architecture` -- Design product-centric architecture for the target product
+- `/arckit-agile-strategy` -- Plan dual transformation with agile strategy canvas
+- `/arckit-agile-security` -- Embed security into the sprint rhythm
+- `/arckit-agile-governance` -- Establish governance cadence for the programme

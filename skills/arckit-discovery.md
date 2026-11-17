@@ -1,0 +1,110 @@
+---
+name: arckit-discovery
+display_name: ArcKit Discovery
+description: "Discovery — current-state baseline across strategy, capabilities, applications, data, and technology"
+tags: [arckit, architecture, governance]
+---
+
+# Discovery: Current State Assessment
+
+Capture the existing enterprise state — business strategy, capabilities, operations,
+applications, data systems, and technology platforms — to establish a baseline for gap
+analysis and rationalization.
+
+## Inputs
+
+- `PRIN` — Architectural principles that constrain discovery
+- `{DISC_SCOPE}` — Scope of systems to inventory (e.g., "enterprise applications",
+  "cloud infrastructure", "all enterprise systems")
+
+## Output
+
+`DISC.md` — Current state inventory covering:
+
+1. **Business Context** — Strategy, vision, key initiatives, organizational structure
+2. **Capability Assessment** — Current business capabilities, maturity levels, gaps vs strategy
+3. **Application Landscape** — Existing applications, ownership, lifecycle status
+4. **Data Inventory** — Databases, data flows, data ownership
+5. **Technology Stack** — Infrastructure, platforms, hosting environments
+6. **Known Constraints** — Legacy dependencies, compliance requirements, budget limits
+
+## Process
+
+1. **Run the intake interview**: Run the intake interview per `${VIBE_EXTENSION_ROOT}/references/intake-instructions.md` — derive required inputs from the structure below (the effective template) and MANDATORY prerequisites, prefill from existing sources, put **every** intake question to the user one at a time (**ask-always, answer-optional** — the interview must ask; each answer is optional and may be skipped, rendering as a `TBD` marker when skipped), and persist the answers. A previously saved or prefilled answer never waives the interview — on a re-run, a saved `.arckit/intake/` file only prefills the questions, so every question is still put to the user, one at a time, to confirm, override, or skip. Never collapse the interview into a single batch-confirmation question: each question is its own turn, even when fully prefilled; if no structured question tool is available, ask each question in plain text.
+2. **Render `DISC.md`** following the structure below; render any skipped MANDATORY input as a quoted `TBD` marker and list it under "Unresolved fields" in the summary.
+
+## Structure
+
+```markdown
+## Current State Assessment
+
+### Business Context
+- [Strategic direction, key drivers, organizational model]
+- [Current operating model: processes, decision rights, governance]
+
+### Capability Assessment
+- [Current capability map with maturity ratings]
+- [Capabilities aligned to strategic goals vs legacy/obsolete]
+
+### Application Landscape
+- [List existing applications with status: active, deprecated, planned]
+
+### Data Inventory
+- [List data systems, ownership, classification]
+
+### Technology Stack
+- [List infrastructure, platforms, hosting]
+
+### Known Constraints
+- [Legacy dependencies, compliance requirements, budget limits]
+```
+
+## Interview Questions (TOGAF 10 — current-state discovery)
+
+The intake interview for this command asks the questions below before rendering
+`DISC.md`. Every question below is always put to the user for their input, one
+question at a time, and is prefilled where answerable from existing artefacts,
+saved intake, onboarding data, or organisation config so the user can confirm or
+override it. Each question is **optional**: a skipped question renders as a
+`TBD` marker in the artefact.
+
+- **Business context:** What is the strategic direction, and what are the key drivers and the current operating model?
+- **Capability state:** Which capabilities exist today, at what maturity, and which are obsolete or legacy?
+- **Application landscape:** Which applications exist, who owns them, and which are deprecated or planned for retirement?
+- **Data state:** Which data systems exist, who owns the data, and what classification levels apply?
+- **Technology baseline:** Which infrastructure, platforms, and hosting environments are in use?
+- **Constraints:** What legacy dependencies, compliance requirements, and budget limits constrain any future state?
+- **Pain points:** Where are the most acute operational, data, or technology problems today?
+
+## Dependencies
+
+- Requires `PRIN` — discovery is scoped by architectural principles
+- Feeds into: `BPCM` (target capability design), `APP` (current vs target inventory),
+  `DATA` (current data state), `TECH` (current technology baseline),
+  `GAPA` (current vs target gap)
+
+## PlantUML ArchiMate View (additive)
+
+When the artefact content is **ArchiMate-representable** (a layer/tier, capability, service, application or technology component, or a motivation element — driver/goal/constraint), add a PlantUML-ArchiMate view to the generated artefact:
+
+1. Load `${VIBE_EXTENSION_ROOT}/skills/plantuml-syntax/references/archimate.md` (pinned `!include <archimate/Archimate>`, PlantUML 1.2026.8) for notation.
+2. Fill the `## PlantUML ArchiMate View` block in the template, stereotyped into the **Motivation (drivers / goals)** layer focus.
+3. Quality gates: single-layer stereotyping; ≤ 12 elements per layer; realization edges point concrete → abstract; no unlabelled cross-layer edges.
+
+This is additive — the existing Mermaid diagram(s) are retained, not replaced.
+
+## Render the ArchiMate view(s) to self-contained SVG(s)
+
+PlantUML does not render in GitHub markdown, so each ArchiMate view above (the demanded base view, and any companion view) is delivered as a rendered **self-contained `.svg`** — the inline PlantUML source above stays the source of truth:
+
+1. Render offline with the pinned build: `java -jar plantuml-1.2026.8.jar -tsvg <view>.puml` (no public server, no URL-include path).
+2. The rendered `.svg` is the **only new rendered file** for the view; do not create a new architecture document file to host the view (the inline PlantUML source is retained).
+3. Verify self-containment before delivery: no `http(s)` URL other than the W3C `2000/svg` / `1999/xlink` namespace declarations, `xlink:href` limited to local `#anchors`, and the SVG opens and renders fully offline.
+4. Notation + rendering reference: § Diagram Production Policy + § Offline Self-Contained SVG Rendering in `skills/plantuml-syntax/references/archimate.md`.
+
+## Suggested Next Steps
+
+After completing this command, consider running:
+
+- `/arckit-gap-analysis` -- Score current vs target gaps from the discovery baseline
+- `/arckit-application-rationalization` -- Consolidate, retire, or replace applications from the current-state inventory

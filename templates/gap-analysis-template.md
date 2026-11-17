@@ -1,0 +1,296 @@
+---
+title: "Gap Analysis"
+docType: GAPA
+templateVersion: "1.0"
+---
+
+# Gap Analysis
+
+## Intake Interview Questions
+
+The template-driven intake interview asks the questions below before rendering this
+artefact. Every question below is always put to the user for their input, one
+question at a time, and is prefilled where answerable from existing artefacts,
+saved intake, onboarding data, or organisation config so the user can confirm or
+override it. Each question is **optional**: a skipped question renders as a
+`TBD` marker in the artefact. Sources: TOGAF Standard, 10th Edition
+(discovery dimensions per ADM phase) and the O-AA / agentic outcome dimensions below.
+
+### Intake questions (TOGAF 10 — ADM Phase E)
+
+- **Current state:** What is the evidenced current state for the dimensions in scope (capability, application, data, technology)?
+- **Target state:** What is the agreed target state each gap is measured against?
+- **Gaps:** For each gap: what exactly is missing, and what is its business impact?
+- **Root causes:** What is causing each gap (capability, funding, skills, technology, process)?
+- **Mitigations:** What closes each gap, and which mitigation maps to which transition work package?
+- **Gap severity weighting:** How should gap severity be weighted? Options: `Balanced` | `Strategic-risk` | `Operational` (default: `Balanced`):
+  - **Balanced**: Equal weight to strategic impact and operational cost of the gap
+  - **Strategic-risk**: Heavier weighting on strategic impact — gaps that threaten business outcomes are prioritised regardless of effort
+  - **Operational**: Heavier weighting on effort/cost — gaps that can be closed quickly with high business value are prioritised
+
+## Document Control
+
+| Field | Value |
+|-------|-------|
+| Document ID | `ARC-[PROJECT_ID]-GAPA-v[VERSION]` |
+| Document Type | Gap Analysis |
+| Project | `[PROJECT_NAME]` |
+| Classification | `[CLASSIFICATION]` |
+| Status | DRAFT |
+| Severity Weighting | `[BALANCED / STRATEGIC-RISK / OPERATIONAL]` |
+| Version | `[VERSION]` |
+| Created Date | `[YYYY-MM-DD]` |
+| Last Modified | `[YYYY-MM-DD]` |
+| Review Cycle | Monthly during active ADM cycle |
+| Next Review Date | `[YYYY-MM-DD]` |
+| Owner | `[OWNER_NAME_AND_ROLE]` |
+| Reviewed By | `[REVIEWER_NAME]` |
+| Approved By | `[APPROVER_NAME]` |
+| Distribution | `[DISTRIBUTION_LIST]` |
+| Created | `[YYYY-MM-DD]` |
+| Review Date | `[YYYY-MM-DD]` |
+
+### Revision History
+
+| Version | Date | Author | Description | Reviewer | Approver |
+|---------|------|--------|-------------|----------|----------|
+| `[VERSION]` | `[YYYY-MM-DD]` | ArcKit AI | Initial creation from `/arckit:gap-analysis` command | `[REVIEWER_NAME]` | `[APPROVER_NAME]` |
+
+---
+
+## 1. Capability Gap Matrix
+
+| Capability | Current | Target | Gap Size | Urgency | Severity (Size×Urgency) | Workstream |
+|------------|---------|--------|----------|---------|--------------------------|------------|
+| C1.1.1: [Capability Name] | L2 | L4 | Medium | High | High | WS-001 |
+| C1.1.2: [Capability Name] | L3 | L4 | Small | Medium | Medium | WS-001 |
+| C2.1.1: [Capability Name] | L1 | L4 | Large | High | Critical | WS-002 |
+| C2.1.2: [Capability Name] | L2 | L3 | Small | Low | Low | WS-003 |
+| C3.1.1: [Capability Name] | L3 | L5 | Large | Medium | High | WS-002 |
+| C3.2.1: [Capability Name] | L4 | L5 | Small | High | Medium | WS-003 |
+| C4.1.1: [Capability Name] | L1 | L3 | Medium | High | High | WS-001 |
+| C4.2.1: [Capability Name] | L2 | L2 | None | Low | Informational | — |
+| C5.1.1: [Capability Name] | L3 | L5 | Medium | Low | Medium | WS-004 |
+
+### Gap Size Classification
+
+| Gap Size | Maturity Delta | Description |
+|----------|---------------|-------------|
+| Small | Δ = 1 level | Incremental improvement |
+| Medium | Δ = 2 levels | Significant enhancement required |
+| Large | Δ ≥ 3 levels | Fundamental transformation required |
+
+### Urgency Classification
+
+| Urgency | Description | Timeframe |
+|---------|-------------|-----------|
+| High | Must address in immediate planning horizon | 0–3 months |
+| Medium | Address in next delivery cycle | 3–12 months |
+| Low | Plan for future cycles | 12–24 months |
+
+### Severity Matrix
+
+| | Urgency: Low | Urgency: Medium | Urgency: High |
+|---|---|---|---|
+| **Gap Size: Small** | Informational | Medium | Medium |
+| **Gap Size: Medium** | Low | Medium | High |
+| **Gap Size: Large** | Plan | High | Critical |
+
+---
+
+## 2. Gap Heatmap
+
+```mermaid
+quadrantChart
+    title Gap Severity — Size vs Urgency
+    x-axisLow --> High
+    y-axisLow --> High
+    quadrant-1 Immediate
+    quadrant-2 Plan
+    quadrant-3 Monitor
+    quadrant-4 Low Priority
+    "C1.1.1": [0.5, 0.8]
+    "C2.1.1": [0.8, 0.9]
+    "C3.1.1": [0.7, 0.5]
+    "C4.1.1": [0.5, 0.7]
+    "C5.1.1": [0.5, 0.3]
+    "C1.1.2": [0.3, 0.5]
+    "C3.2.1": [0.3, 0.7]
+    "C2.1.2": [0.3, 0.2]
+```
+
+### Heatmap Interpretation
+
+| Quadrant | Count | Action |
+|----------|-------|--------|
+| **Immediate** (Large + High urgency) | [N] | Assign to next work package |
+| **Plan** (Large + Low urgency) | [N] | Include in 12-month planning |
+| **Monitor** (Small + High urgency) | [N] | Quick wins — address early |
+| **Low Priority** (Small + Low urgency) | [N] | Maintain in backlog |
+
+---
+
+## 3. Workstream Mapping
+
+| Workstream ID | Name | Gaps | Dependencies | Duration | Resources |
+|---------------|------|------|-------------|----------|-----------|
+| WS-001 | [Workstream Name] | [C1.1.1, C4.1.1] | [—] | [6 months] | [5 FTE] |
+| WS-002 | [Workstream Name] | [C2.1.1, C3.1.1] | [WS-001] | [9 months] | [8 FTE] |
+| WS-003 | [Workstream Name] | [C2.1.2, C3.2.1] | [WS-002] | [4 months] | [3 FTE] |
+| WS-004 | [Workstream Name] | [C5.1.1] | [WS-002] | [3 months] | [2 FTE] |
+
+### Workstream Dependencies
+
+```mermaid
+flowchart TD
+    WS1[WS-001: [Workstream 1 Name]] --> WS2[WS-002: [Workstream 2 Name]]
+    WS2 --> WS3[WS-003: [Workstream 3 Name]]
+    WS1 --> WS3
+    WS2 --> WS4[WS-004: [Workstream 4 Name]]
+```
+
+### Workstream Details
+
+#### WS-001: [Workstream Name]
+
+- **Objective**: [Brief description of what this workstream delivers]
+- **Gaps addressed**: [List capabilities]
+- **Key activities**:
+  1. [Activity 1]
+  2. [Activity 2]
+  3. [Activity 3]
+- **Success criteria**: [Measurable outcomes]
+
+#### WS-002: [Workstream Name]
+
+- **Objective**: [Brief description of what this workstream delivers]
+- **Gaps addressed**: [List capabilities]
+- **Key activities**:
+  1. [Activity 1]
+  2. [Activity 2]
+  3. [Activity 3]
+- **Success criteria**: [Measurable outcomes]
+
+---
+
+## 4. Gap-to-Risk Mapping
+
+| Gap | Capability | Associated Risk | Risk Category | Impact | Mitigation |
+|-----|-----------|-----------------|---------------|--------|----------|
+| G-001 | C1.1.1 | [Risk description] | [Operational/Strategic/Compliance] | [High/Medium/Low] | [Mitigation] |
+| G-002 | C2.1.1 | [Risk description] | [Operational/Strategic/Compliance] | [High/Medium/Low] | [Mitigation] |
+| G-003 | C3.1.1 | [Risk description] | [Operational/Strategic/Compliance] | [High/Medium/Low] | [Mitigation] |
+| G-004 | C4.1.1 | [Risk description] | [Operational/Strategic/Compliance] | [High/Medium/Low] | [Mitigation] |
+| G-005 | C5.1.1 | [Risk description] | [Operational/Strategic/Compliance] | [High/Medium/Low] | [Mitigation] |
+
+---
+
+## 5. Assumptions & Constraints
+
+### Assumptions
+
+1. [Assumption about current state assessment accuracy]
+2. [Assumption about target state feasibility]
+3. [Assumption about resource availability]
+4. [Assumption about technology stability]
+
+### Constraints
+
+1. **Budget**: [Budget constraints affecting gap closure]
+2. **Timeline**: [Time-based constraints on delivery]
+3. **Skills**: [Skills gaps that affect workstream execution]
+4. **Technology**: [Technology constraints and dependencies]
+5. **Compliance**: [Regulatory constraints on approach]
+
+---
+
+## 6. Traceability
+
+| Gap | Source Capability (BPCM) | Target State (STRAT) | Principle Alignment (PRIN) | Workstream |
+|-----|--------------------------|---------------------|-------------------------------|------------|
+| G-001 | C1.1.1 (L2 → L4) | STRAT Section 3.2 | PRIN-005 | WS-001 |
+| G-002 | C2.1.1 (L1 → L4) | STRAT Section 4.1 | PRIN-003 | WS-002 |
+| G-003 | C3.1.1 (L3 → L5) | STRAT Section 2.5 | PRIN-007 | WS-002 |
+| G-004 | C4.1.1 (L1 → L3) | STRAT Section 5.3 | PRIN-002 | WS-001 |
+| G-005 | C5.1.1 (L3 → L5) | STRAT Section 3.8 | PRIN-009 | WS-004 |
+
+### External References
+
+| ID | Source | Relevance |
+|----|--------|-----------|
+| [GA-E1] | [External document name] | [What it contributed] |
+
+---
+
+**Generated by**: ArcKit `/arckit:gap-analysis` command
+**Generated on**: `[DATE] [TIME] GMT`
+**ArcKit Version**: `{ARCKIT_VERSION}`
+**Project**: `[PROJECT_NAME]` (Project `[PROJECT_ID]`)
+**Severity Weighting Profile**: `[BALANCED / STRATEGIC-RISK / OPERATIONAL]`
+
+## PlantUML ArchiMate View
+
+**Layer focus**: Capability (target vs current)
+
+> Notation: PlantUML ArchiMate standard library — pinned `!include <archimate/Archimate>` (PlantUML 1.2026.8).
+> This view is additive; the Mermaid diagram(s) above are unchanged.
+
+```plantuml
+@startuml
+!include <archimate/Archimate>
+
+title {diagram_title}
+
+LAYOUT_TOP_DOWN()
+
+' Elements
+{plantuml_elements}
+
+' Relationships (realization concrete->abstract; serving/flow/access)
+{plantuml_relationships}
+
+' Layout constraints (hidden placement edges)
+{plantuml_layout}
+
+@enduml
+```
+
+**View this diagram** (PlantUML does NOT render in GitHub markdown):
+
+- **CLI**: `java -jar plantuml.jar <file>.puml`
+- **Public server**: https://www.plantuml.com/plantuml/uml/ (keep the view small; never inline the stdlib into the URL source)
+- **Notation reference**: `skills/plantuml-syntax/references/archimate.md`
+- **Artefact delivery**: the view is shipped as a rendered **self-contained `.svg`** (offline, pinned build `plantuml-1.2026.8.jar -tsvg`; no external URLs, fully offline-openable); the inline PlantUML source above is retained as the source of truth.
+
+### PlantUML ArchiMate Companion View (Implementation & Migration)
+
+**Layer focus**: Implementation & Migration
+
+> Notation: PlantUML ArchiMate standard library — pinned `!include <archimate/Archimate>` (PlantUML 1.2026.8).
+> Companion view: a separate sequenced `ARCH` document — additive to the base view above, never merged into it.
+
+```plantuml
+@startuml
+!include <archimate/Archimate>
+
+title {gap_analysis_impl_migration_title}
+
+LAYOUT_TOP_DOWN()
+
+' Companion layer elements
+{companion_impl_migration_elements}
+
+' Realization/relationship edges (concrete->abstract)
+{companion_impl_migration_relationships}
+
+{companion_impl_migration_layout}
+
+@enduml
+```
+
+**View this diagram** (PlantUML does NOT render in GitHub markdown):
+
+- **CLI**: `java -jar plantuml.jar <file>.puml`
+- **Public server**: https://www.plantuml.com/plantuml/uml/ (keep the view small; never inline the stdlib into the URL source)
+- **Notation reference**: `skills/plantuml-syntax/references/archimate.md`
+- **Artefact delivery**: the view is shipped as a rendered **self-contained `.svg`** (offline, pinned build `plantuml-1.2026.8.jar -tsvg`; no external URLs, fully offline-openable); the inline PlantUML source above is retained as the source of truth.
