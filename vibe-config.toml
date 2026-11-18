@@ -11,7 +11,7 @@ strategy, architecture, delivery, and assurance. Enables enterprise architects
 to manage architecture principles, requirements, vendor evaluation, risk
 management, and compliance workflows in Mistral Vibe.
 """
-author = "TractorJuice"
+author = "TerryZhou"
 repository = "https://github.com/terrygzhou/arckit-vibe"
 license = "MIT"
 homepage = "https://terrygzhou.github.io/arc-kit/"
